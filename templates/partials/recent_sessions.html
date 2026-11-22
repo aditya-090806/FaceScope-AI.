@@ -1,0 +1,43 @@
+
+<section class="recent-sessions">
+
+    <div class="recent-header">
+        <h2>Recent Analysis Sessions</h2>
+        <a href="/reports">View All Reports</a>
+    </div>
+
+    {% if recent_sessions %}
+
+        <div class="sessions-list">
+
+            {% for session in recent_sessions %}
+
+                <div class="session-card">
+
+                    <h3>Analysis #{{ loop.index }}</h3>
+
+                    <p>
+                        {{ session.date|default("Date unavailable") }}
+                    </p>
+
+                    <p>
+                        Expression:
+                        {{ session.emotion|default("Not available") }}
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-sessions">
+            <p>No analysis sessions available yet.</p>
+            <p>Your recent analyses will appear here.</p>
+        </div>
+
+    {% endif %}
+
+</section>
