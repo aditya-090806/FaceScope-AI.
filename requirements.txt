@@ -1,0 +1,4 @@
+Flask>=3.0,<4.0
+deepface>=0.0.90
+opencv-python>=4.8
+gunicorn>=22.0; platform_system != "Windows"
