@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Reports · FaceScope AI{% endblock %}
+{% block content %}
+<div class="page-header"><div class="eyebrow">SESSION INSIGHTS</div><h1>Reports & <span class="gradient-text">history</span></h1><p>Summary of saved analysis sessions from the last seven days.</p></div>
+<section class="stats-grid">
+  <div class="stat-card"><div class="stat-label">All-time sessions</div><div class="stat-number">{{ total }}</div><div class="stat-note">Stored locally in SQLite</div></div>
+  <div class="stat-card"><div class="stat-label">Last 7 days</div><div class="stat-number">{{ rows|length }}</div><div class="stat-note">Sessions included in this report</div></div>
+  <div class="stat-card"><div class="stat-label">Categories seen</div><div class="stat-number">{{ counts|length }}</div><div class="stat-note">Distinct top expression estimates</div></div>
+</section>
+<section class="report-grid">
+  <div class="panel chart-panel"><div class="eyebrow">SEVEN-DAY SUMMARY</div><h2>Top expression estimates</h2><p>Counts of each session's highest-scoring expression category.</p>
+  {% if counts %}<canvas id="reportChart" aria-label="Expression estimate counts chart"></canvas>{% else %}<div class="empty-state"><span>◷</span><strong>No data for this period</strong><p>Analyze an image to create your first session.</p></div>{% endif %}
+  </div>
+  <div class="panel"><div class="eyebrow">HOW TO INTERPRET</div><h2>Responsible reporting</h2><ul class="feature-list"><li>Each row represents one analysis session.</li><li>Repeated images or lighting differences can affect model scores.</li><li>Changes in facial expression are not proof of behavioral or emotional change.</li><li>Use consented demo images and delete local data when no longer needed.</li></ul></div>
+</section>
+<section class="section-heading"><div><div class="eyebrow">RECENT RECORDS</div><h2>Session history</h2></div></section>
+<section class="panel table-panel">
+{% if rows %}<div class="table-wrap"><table><thead><tr><th>Session</th><th>Date & time</th><th>Top estimate</th><th>Faces detected</th></tr></thead><tbody>{% for r in rows %}<tr><td>#{{ r['id'] }}</td><td>{{ r['created_at'].replace('T',' ') }}</td><td><span class="expression-tag">{{ r['dominant_expression'] }}</span></td><td>{{ r['face_count'] }}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="empty-state"><span>▤</span><strong>No saved sessions</strong><p>Run an analysis from the dashboard to populate this report.</p></div>{% endif %}
+</section>
+<script>window.reportCountData = {{ counts|tojson }};</script>
+{% endblock %}

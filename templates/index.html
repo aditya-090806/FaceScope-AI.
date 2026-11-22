@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · FaceScope AI{% endblock %}
+{% block content %}
+{# Home/dashboard page: each major section lives in templates/partials/ #}
+{% include "partials/home_hero.html" %}
+{% include "partials/dashboard_stats.html" %}
+{% include "partials/analysis_workspace.html" %}
+{% include "partials/recent_sessions.html" %}
+{% endblock %}

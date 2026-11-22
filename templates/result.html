@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Analysis Results · FaceScope AI{% endblock %}
+{% block content %}
+<div class="page-header"><a class="back-link" href="{{ url_for('index') }}">← Dashboard</a><div class="eyebrow">ANALYSIS COMPLETE · SESSION #{{ session_id }}</div><h1>Expression <span class="gradient-text">report</span></h1><p>Analysis timestamp: {{ created.replace('T',' ') }}</p></div>
+{% for face in faces %}
+<section class="result-hero panel">
+  <div class="result-main"><div class="eyebrow">FACE {{ loop.index }} · TOP ESTIMATE</div><div class="dominant">{{ face.dominant }}</div><p>The model's highest-scoring facial-expression category for this image.</p><div class="notice">These scores describe visual patterns estimated by a model. They do not prove what someone feels, thinks, or intends.</div></div>
+  <div class="score-panel"><h3>Expression score distribution</h3><canvas class="score-chart" data-scores='{{ face.scores|tojson|forceescape }}' aria-label="Expression score distribution for face {{ loop.index }}"></canvas></div>
+</section>
+<section class="panel scores-panel"><div class="section-heading inline-heading"><div><h2>Model scores</h2><p>Scores returned by the pretrained model; not calibrated probabilities.</p></div></div>
+{% for label, score in face.scores|dictsort(by='value', reverse=true) %}
+<div class="score-row"><div class="score-label"><span>{{ label }}</span><strong>{{ "%.2f"|format(score) }}%</strong></div><div class="bar-track"><div class="bar-fill {% if label == face.dominant %}bar-highlight{% endif %}" style="width: {{ [score, 100]|min }}%"></div></div></div>
+{% endfor %}
+</section>
+{% endfor %}
+<div class="button-row bottom-actions"><a class="button secondary" href="{{ url_for('index') }}">Analyze another image</a><a class="button primary" href="{{ url_for('reports') }}">Open reports →</a></div>
+{% endblock %}
