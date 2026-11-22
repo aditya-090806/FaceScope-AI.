@@ -1,0 +1,22 @@
+
+<section class="dashboard-stats">
+    <div class="stat-card">
+        <h3>Total Analyses</h3>
+        <p>{{ total_sessions|default(0) }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Faces Analyzed</h3>
+        <p>{{ total_faces|default(0) }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Latest Analysis</h3>
+        <p>{{ latest_analysis|default("No analysis yet") }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>System Status</h3>
+        <p>Ready</p>
+    </div>
+</section>
